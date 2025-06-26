@@ -1,4 +1,4 @@
->> WIP <<
+WORK IN PROGRESS
 
 my first platformer game
 
