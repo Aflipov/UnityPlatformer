@@ -24,9 +24,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Run",
+                    "name": "Attack",
                     "type": "Button",
-                    "id": "67ed9a7e-0d58-4392-859a-101e149cacd8",
+                    "id": "fe836c11-19d2-42ed-8a13-315b5ee1047f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -80,12 +80,12 @@
                 },
                 {
                     "name": "",
-                    "id": "97cc4afd-e092-4f2b-993c-bb2fb3638860",
-                    "path": "<Keyboard>/ctrl",
+                    "id": "ee91407b-621c-49cc-80d8-dfa904634317",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Run",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
