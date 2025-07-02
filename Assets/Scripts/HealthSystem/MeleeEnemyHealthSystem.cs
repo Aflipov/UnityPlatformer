@@ -5,20 +5,21 @@ using UnityEngine.Events;
 
 public class MeleeEnemyHealthSystem : HealthSystem
 {
-	//[Header("Animation")]
-	
+	[Header("References")]
+	[SerializeField] private PickupSystem playerPickupSystem;
+
 	[Header("Animation")]
     public Animator animator;
 	[SerializeField] private string deathAnimationName = "Death";
 	public float deathAnimationDuration = 1.0f;
 
 	[Header("Loot")]
-	public List<GameObject> lootDrops = new List<GameObject>();
+	public List<GameObject> lootDrops = new();
 	[Range(0f, 1f)]
 	public float dropChance = 0.5f;
 
 	[Header("Events")]
-	//public GameEvent OnEnemyDeath;
+	public UnityEvent OnFroggDeath;
 
 	//Optional Cache
 	private Collider2D _collider;
@@ -50,10 +51,11 @@ public class MeleeEnemyHealthSystem : HealthSystem
     }
 
 
-	//Override death method
 	protected override void Die()
 	{
-		if (IsDead()) return; // Prevent multiple calls to Die
+		if (IsDead()) return;
+
+		
 
 		Debug.Log("Enemy died! Dropping loot and triggering death event...");
 
@@ -61,7 +63,7 @@ public class MeleeEnemyHealthSystem : HealthSystem
 		PlayDeathAnimation();
 		DisableCollider();
 
-		//OnEnemyDeath?.Raise();
+		playerPickupSystem.FroggUP();
 
 		base.Die();
 	}
@@ -91,7 +93,6 @@ public class MeleeEnemyHealthSystem : HealthSystem
 
 	private void DisableCollider()
 	{
-		//Disable collider for the object
 		if (_collider != null)
 		{
 			GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
@@ -100,7 +101,7 @@ public class MeleeEnemyHealthSystem : HealthSystem
 		else
 		{
 			Debug.LogWarning("Collider is null. Collision is not disabled");
-			GetComponent<Collider2D>().enabled = false; //Prevent collision
+			GetComponent<Collider2D>().enabled = false;
 		}
 	}
 

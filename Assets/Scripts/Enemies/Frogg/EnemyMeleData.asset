@@ -16,4 +16,4 @@ MonoBehaviour:
   moveSpeed: 5
   groundRayLngth: 1
   wallRayLngth: 1
-  detectionRange: 8
+  detectionRange: 12

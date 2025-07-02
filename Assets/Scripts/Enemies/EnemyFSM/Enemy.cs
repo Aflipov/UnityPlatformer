@@ -82,7 +82,7 @@ public class Enemy: MonoBehaviour
 		directionToPlayer = player.position - transform.position;
 		distanceToPlayer = directionToPlayer.magnitude;
 
-		if (distanceToPlayer <= enemyData.detectionRange)
+		if (distanceToPlayer <= enemyData.detectionRange && !player.GetComponent<PlayerHealthSystem>().IsDead())
 		{
 
 			// Raycast к игроку

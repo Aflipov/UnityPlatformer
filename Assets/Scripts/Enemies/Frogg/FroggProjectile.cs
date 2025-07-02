@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //Apply Damage to Player (find healthSystem)
-            HealthSystem healthSystem = other.GetComponent<HealthSystem>();
+            PlayerHealthSystem healthSystem = other.GetComponent<PlayerHealthSystem>();
             if (healthSystem != null)
             {
                 healthSystem.TakeDamage(damage);
