@@ -44,7 +44,7 @@ public class MeleeEnemyHealthSystem : HealthSystem
         damageFlash = GetComponent<DamageFlash>();
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(float damage)
     {
 		damageFlash.Flash();
         base.TakeDamage(damage);

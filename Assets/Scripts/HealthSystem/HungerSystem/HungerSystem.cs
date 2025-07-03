@@ -6,7 +6,6 @@ public class HungerSystem : MonoBehaviour
 	[Header("Hunger Parameters")]
 	[SerializeField] private float maxHunger = 100;
 	[SerializeField] private float currentHunger;
-	[SerializeField] private float starvingSpeed;
 
 	[Header("Events")]
 	public UnityEvent OnHungerChanged;
@@ -20,13 +19,13 @@ public class HungerSystem : MonoBehaviour
 
 	private void Update()
 	{
-		Starve();
-
     }
 
-	private void Starve()
+	public void Starve(float amount)
 	{
-		currentHunger = Mathf.Clamp(currentHunger - starvingSpeed * Time.deltaTime, 0f, maxHunger);
+		currentHunger = Mathf.Clamp(currentHunger - amount, 0f, maxHunger);
+
+        OnHungerChanged?.Invoke();
     }
 
     public void RefillHunger()
@@ -46,6 +45,4 @@ public class HungerSystem : MonoBehaviour
 	public float GetCurrentHunger() { return currentHunger; }
 
 	public float GetMaxHunger() { return maxHunger; }
-
-	public float GetStarvingSpeed() { return starvingSpeed; }
 }

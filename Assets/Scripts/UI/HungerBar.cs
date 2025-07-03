@@ -9,7 +9,6 @@ public class HungerBar : MonoBehaviour
 
     public float maxHunger;
     public float currentHunger;
-    public float starvingSpeed;
     public float lerpSpeed;
 
     void Start()
@@ -17,7 +16,9 @@ public class HungerBar : MonoBehaviour
         playerHungerSystem.OnHungerChanged.AddListener(OnHungerChanged);
 
         currentHunger = maxHunger = playerHungerSystem.GetMaxHunger();
-        starvingSpeed = playerHungerSystem.GetStarvingSpeed();
+
+        hungerSlider.maxValue = maxHunger;
+        hungerSlider.minValue = 0f;
     }
 
     //private void OnEnable()
@@ -45,8 +46,6 @@ public class HungerBar : MonoBehaviour
 
     void Update()
     {
-        Starve();
-
         if (hungerSlider.value != currentHunger)
         {
             hungerSlider.value = currentHunger;
@@ -60,10 +59,5 @@ public class HungerBar : MonoBehaviour
         {
             easeHungerSlider.value = currentHunger;
         }
-    }
-
-    private void Starve()
-    {
-        currentHunger = Mathf.Clamp(currentHunger - starvingSpeed * Time.deltaTime, 0f, maxHunger);
     }
 }

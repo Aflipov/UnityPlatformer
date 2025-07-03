@@ -16,6 +16,9 @@ public class HealthBar : MonoBehaviour
         playerHealthSystem.OnHealthChanged.AddListener(OnHealthChanged);
 
         health = maxHealth = playerHealthSystem.GetMaxHealth();
+
+        healthSlider.maxValue = maxHealth;
+        healthSlider.minValue = 0f;
     }
 
     //private void OnEnable()

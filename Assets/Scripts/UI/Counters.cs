@@ -10,7 +10,9 @@ public class Counters : MonoBehaviour
     [SerializeField] private TextMeshProUGUI froggsCounter;
     [SerializeField] private TextMeshProUGUI pineapplesCounter;
 
-	public int currentBabyFires;
+    [SerializeField] private TextMeshProUGUI timerText;
+
+    public int currentBabyFires;
 	public int currentFroggs;
 	public int currentPineapples;
 
@@ -23,28 +25,16 @@ public class Counters : MonoBehaviour
         playerPickupSystem.OnBabyFirePickup.AddListener(OnBabyFireCollected);
         playerPickupSystem.OnFroggKill.AddListener(OnFroggKilled);
         playerPickupSystem.OnPineapplePickup.AddListener(OnPineappleCollected);
+
+        TimerUpdate();
     }
 
-	//private void OnEnable()
-	//{
-	//	if (playerHealthSystem != null)
-	//	{
-	//		playerPickupSystem.OnBabyFirePickup.AddListener(OnBabyFireCollected);
-	//		playerPickupSystem.OnFroggKill.AddListener(OnFroggKilled);
-	//		playerPickupSystem.OnPineapplePickup.AddListener(OnPineappleCollected);
-	//	}
-	//}
+    private void Update()
+    {
+        TimerUpdate();
+    }
 
-	//private void OnDisable()
-	//{
-	//	if (playerHealthSystem != null)
- //       {
- //           playerPickupSystem.OnBabyFirePickup.RemoveListener(OnBabyFireCollected);
- //           playerPickupSystem.OnFroggKill.RemoveListener(OnFroggKilled);
- //       }
-	//}
-
-	public void OnBabyFireCollected()
+    public void OnBabyFireCollected()
 	{
 		currentBabyFires = playerPickupSystem.GetBabyFiresCollected();
 		babyFiresCounter.text = string.Format("{0:D2}", currentBabyFires);
@@ -58,5 +48,12 @@ public class Counters : MonoBehaviour
 	{
         currentPineapples = playerPickupSystem.GetPineapplesCollected();
 		pineapplesCounter.text = string.Format("{0:D2}", currentPineapples);
+    }
+    private void TimerUpdate()
+    {
+        int seconds = Mathf.FloorToInt(PauseManager.instance.Timer);
+        int milliseconds = Mathf.FloorToInt((PauseManager.instance.Timer - seconds) * 1000);
+
+        timerText.text = string.Format("{0:00}:{1:00}", seconds, milliseconds);
     }
 }

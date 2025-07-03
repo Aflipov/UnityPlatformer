@@ -4,14 +4,12 @@ using UnityEngine.Events; // Important for using UnityEvents
 public class HealthSystem : MonoBehaviour
 {
     [Header("Health Parameters")]
-    [SerializeField] protected int maxHealth = 100;
-    [SerializeField] protected int currentHealth;
+    [SerializeField] protected float maxHealth = 100;
+    [SerializeField] protected float currentHealth;
 
     [Header("Events")]
     public UnityEvent OnHealthChanged;    // Called when health changes (takes no parameters)
-    public UnityEvent OnDeath;             // Called when health reaches zero (takes no parameters)
-    public IntEvent OnDamageTaken;         // Called when damage is taken. Passes the damage amount.
-    public IntEvent OnHealed;            //Called when healed. Passes the healed amount
+    public UnityEvent OnDeath;
 
     private bool _isDead = false;
 
@@ -26,19 +24,16 @@ public class HealthSystem : MonoBehaviour
         OnHealthChanged?.Invoke(); // Initial call to update UI/other components
     }
 
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(float amount)
     {
-        if (_isDead) return; // Prevent taking damage after death
+        if (_isDead) return;
 
-        int clampedDamage = Mathf.Abs(damage); // Ensure damage is positive
+        currentHealth -= amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        currentHealth -= clampedDamage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Keep health within bounds
-
-        Debug.Log(gameObject.name + " took " + clampedDamage + " damage. Current health: " + currentHealth);
+        Debug.Log(gameObject.name + " took " + amount + " damage. Current health: " + currentHealth);
 
         OnHealthChanged?.Invoke();
-        OnDamageTaken?.Invoke(clampedDamage);  // Call event, passing damage amount
 
         if (currentHealth <= 0)
         {
@@ -46,19 +41,16 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    public void Heal(int amount)
+    public void Heal(float amount)
     {
-        if (_isDead) return; //Prevent healing after death
+        if (_isDead) return;
 
-        int clampedAmount = Mathf.Abs(amount);
-
-        currentHealth += clampedAmount;
+        currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        Debug.Log(gameObject.name + " healed for " + amount + ". Current health: " + currentHealth);
+        //Debug.Log(gameObject.name + " healed for " + amount + ". Current health: " + currentHealth);
 
         OnHealthChanged?.Invoke();
-        OnHealed?.Invoke(clampedAmount);
 
     }
 
@@ -83,10 +75,9 @@ public class HealthSystem : MonoBehaviour
     }
 
     //Public accessors
-    public int GetCurrentHealth() { return currentHealth; }
+    public float GetCurrentHealth() { return currentHealth; }
 
-    public int GetMaxHealth() { return maxHealth; }
+    public float GetMaxHealth() { return maxHealth; }
 
-    public float GetHealthNormalized() { return (float)currentHealth / maxHealth; } //Get health in percentage
     public bool IsDead() { return _isDead; }
 }

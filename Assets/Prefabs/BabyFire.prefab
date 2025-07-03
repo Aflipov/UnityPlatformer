@@ -203,5 +203,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1.5
-  pauseDuration: 1
+  pauseDuration: 2
   movementRange: 3

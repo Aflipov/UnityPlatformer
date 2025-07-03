@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,11 +15,22 @@ public class PickupSystem : MonoBehaviour
     public UnityEvent OnFroggKill;
     public UnityEvent OnPineapplePickup;
 
+    private int babyFiresGoal = GameManager.Instance.BabyFiresGoal;
+    private int froggsGoal = GameManager.Instance.froggsGoal;
+
 
     private void Start()
     {
         currentBabyFires = 0;
         currentFroggsKilled = 0;
+
+        babyFiresGoal = GameManager.Instance.BabyFiresGoal;
+        froggsGoal = GameManager.Instance.froggsGoal;
+    }
+
+    private void Update()
+    {
+        //GoalCheck();
     }
 
     public void PickupBabyFire()
@@ -26,6 +38,8 @@ public class PickupSystem : MonoBehaviour
         currentBabyFires++;
         OnBabyFirePickup.Invoke();
         Debug.Log("BabyFires: " + currentBabyFires);
+
+        GoalCheck();
     }
 
     public void FroggUP()
@@ -33,12 +47,24 @@ public class PickupSystem : MonoBehaviour
         currentFroggsKilled++;
         OnFroggKill.Invoke();
         Debug.Log("Froggs killed: " + currentFroggsKilled);
+
+        GoalCheck();
     }
     public void PickupPineapple()
     {
         currentPineapples++;
         OnPineapplePickup.Invoke();
         Debug.Log("Pineapples: " + currentPineapples);
+    }
+
+    private void GoalCheck()
+    {
+        if (currentBabyFires >= babyFiresGoal && currentFroggsKilled >= froggsGoal)
+        {
+            SaveManager.SaveScore(PauseManager.instance.Timer);
+
+            SceneSwapManager.SwapScene("MainMenu");
+        }
     }
 
     public int GetBabyFiresCollected()
